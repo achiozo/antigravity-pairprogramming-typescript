@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'salvar', produto: Produto): void
+  (e: 'salvar', produto: Produto, onSuccess: () => void): void
   (e: 'cancelar'): void
 }>()
 
@@ -30,7 +30,11 @@ watch(() => props.produtoEditando, (novo) => {
 }, { immediate: true })
 
 const onSubmit = () => {
-  emit('salvar', form.value)
+  emit('salvar', form.value, () => {
+    if (!form.value.id) {
+      form.value = { nome: '', descricao: '', preco: 0, estoque: 0 }
+    }
+  })
 }
 </script>
 
