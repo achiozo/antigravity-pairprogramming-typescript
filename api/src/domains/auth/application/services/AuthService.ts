@@ -1,16 +1,14 @@
 import { User } from '../../core/models/User';
 import { UserRepository } from '../../infrastructure/repositories/UserRepository';
 import { PasswordHasher } from '../../../../infrastructure/security/PasswordHasher';
+import { ITokenProvider } from '../../core/ITokenProvider';
 import { v4 as uuidv4 } from 'uuid';
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'secret-key-fallback';
-const JWT_EXPIRES_IN = '8h';
 
 export class AuthService {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly passwordHasher: PasswordHasher
+        private readonly passwordHasher: PasswordHasher,
+        private readonly tokenProvider: ITokenProvider
     ) { }
 
     async register(data: Partial<User>): Promise<Omit<User, 'password_hash'>> {
@@ -54,7 +52,7 @@ export class AuthService {
         }
 
         const payload = { userId: user.id, email: user.email };
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+        const token = this.tokenProvider.create(payload);
 
         const { password_hash, ...userWithoutPassword } = user;
         return { token, user: userWithoutPassword };
