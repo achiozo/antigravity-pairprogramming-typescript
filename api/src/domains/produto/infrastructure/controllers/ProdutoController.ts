@@ -4,11 +4,7 @@ import { Request, Response } from 'express';
 import { ProdutoService } from '../../application/services/ProdutoService';
 
 export class ProdutoController {
-    private service: ProdutoService;
-
-    constructor() {
-        this.service = new ProdutoService();
-    }
+    constructor(private readonly service: ProdutoService) {}
 
     // Typescript: Usando as tipagens Request e Response fornecidas nativamente pelo pacote @types/express.
     async listarTodos(req: Request, res: Response): Promise<void> {

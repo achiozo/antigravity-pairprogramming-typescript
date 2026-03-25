@@ -8,8 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret-key-fallback';
 const JWT_EXPIRES_IN = '8h';
 
 export class AuthService {
-    private userRepository = new UserRepository();
-    private passwordHasher = new PasswordHasher();
+    constructor(
+        private readonly userRepository: UserRepository,
+        private readonly passwordHasher: PasswordHasher
+    ) { }
 
     async register(data: Partial<User>): Promise<Omit<User, 'password_hash'>> {
         if (!data.name || !data.email || !data.password_hash) {
