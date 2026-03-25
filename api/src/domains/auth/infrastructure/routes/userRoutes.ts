@@ -2,9 +2,10 @@ import { Router } from 'express';
 import { UserController } from '../controllers/UserController';
 import { UserRepository } from '../repositories/UserRepository';
 import { UserService } from '../../application/services/UserService';
+import pool from '../../../../infrastructure/database/connection';
 
 const router = Router();
-const userRepository = new UserRepository();
+const userRepository = new UserRepository(pool);
 const userService = new UserService(userRepository);
 const controller = new UserController(userService);
 

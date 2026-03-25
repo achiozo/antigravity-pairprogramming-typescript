@@ -4,9 +4,10 @@ import { Router } from 'express';
 import { ProdutoController } from '../controllers/ProdutoController';
 import { ProdutoRepository } from '../repositories/ProdutoRepository';
 import { ProdutoService } from '../../application/services/ProdutoService';
+import pool from '../../../../infrastructure/database/connection';
 
 const router = Router();
-const repository = new ProdutoRepository();
+const repository = new ProdutoRepository(pool);
 const service = new ProdutoService(repository);
 const controller = new ProdutoController(service);
 
