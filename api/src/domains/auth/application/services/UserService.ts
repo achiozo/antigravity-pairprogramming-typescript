@@ -2,7 +2,7 @@ import { UserRepository } from '../../infrastructure/repositories/UserRepository
 import { User } from '../../core/models/User';
 
 export class UserService {
-    constructor(private readonly userRepository: UserRepository) {}
+    constructor(private readonly userRepository: UserRepository) { }
 
     async listUsers(): Promise<Omit<User, 'password_hash'>[]> {
         return this.userRepository.findAll();

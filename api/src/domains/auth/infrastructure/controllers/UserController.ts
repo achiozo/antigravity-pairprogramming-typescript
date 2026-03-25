@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UserService } from '../../application/services/UserService';
 
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService) { }
 
     async listUsers(req: Request, res: Response): Promise<void> {
         try {
